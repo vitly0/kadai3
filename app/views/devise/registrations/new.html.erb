@@ -1,0 +1,59 @@
+<p id="notice"><%= flash[:notice] %></p>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 col-md-8 col-lg-5 px-5 px-sm-0">
+      <h2>Sign up</h2>
+      <%= form_with model: @user, url: user_registration_path, id: 'new_user', class: 'new_user' do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
+          <div class="field">
+            <%= f.label :Name %><br />
+            <% @user.errors.full_messages.each do |message| %>
+              <% if (message == "Name is too short (minimum is 2 characters)") || (message == "Name has already been taken") || (message == "Name is too long (maximum is 20 characters)") %>
+              <br>
+              <% end %>
+            <% end %>
+            <%= f.text_field :name %>
+          </div>
+  
+          <div class="field">
+            <%= f.label :Email %><br />
+            <% @user.errors.full_messages.each do |message| %>
+              <% if (message == "Email can't be blank") || (message == "Email has already been taken") %>
+              <br>
+              <% end %>
+            <% end %>
+            <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+          </div>
+
+          <div class="field">
+            <%= f.label :Password %>
+            <% @user.errors.full_messages.each do |message| %>
+              <% if (message == "Password can't be blank") || (message == "Password is too short (minimum is 6 characters)") || (message == "Password is too long (maximum is 128 characters)") %>
+              <br>
+              <% end %>
+            <% end %>
+            <% if @minimum_password_length %>
+            <em>(<%= @minimum_password_length %> characters minimum)</em>
+            <% end %><br />
+            <%= f.password_field :password, autocomplete: "new-password" %>
+          </div>
+
+          <div class="field">
+            <%= f.label :Password_confirmation %><br />
+            <% @user.errors.full_messages.each do |message| %>
+              <% if message == "Password confirmation doesn't match Password" %>
+              <br>
+              <% end %>
+            <% end %>
+            <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+          </div>
+
+        <div class="actions">
+          <%= f.submit "Sign up", class: "btn btn-sm btn-success" %>
+        </div>
+        
+      <% end %>
+      <%= link_to "Log in", new_user_session_path %>
+    </div>
+  </div>
+</div>
